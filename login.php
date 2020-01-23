@@ -2,33 +2,27 @@
 <?php 
 session_start();
 include 'conn.php';     //connection
-if(isset($_POST['submit']))
-    {
-	    $username=$_POST['uname'];
-        $password=$_POST['pswd'];
-        $sql="select * from login where username='$username' and password='$password'";        //SQL STATEMENT
-        $result = mysqli_query($conn,$sql);
-        $check = mysqli_fetch_array($result);       
-        if(isset($check))
-        {
-            //redirecting to other page
-            $_SESSION['user']=$_POST['uname'];                  //session created
-            $host=$_SERVER['HTTP_HOST'];
-            $uri=rtrim(dirname($_SERVER['PHP_SELF']));
-            $page="welcome.php";
-            $http=(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") ;
-            header("location:$http://$host$uri/$page");     
-          
-        }
-        else
-        {
-            $err="Invalid username and password";
-        }   
+if(isset($_POST['submit'])){
+	$username=$_POST['uname'];
+    $password=$_POST['pswd'];
+    $sql="select * from login where username='$username' and password='$password'";        //SQL STATEMENT
+    $result = mysqli_query($conn,$sql);
+    $check = mysqli_fetch_array($result);       
+    if(isset($check)){
+        //redirecting to other page
+        $_SESSION['user']=$_POST['uname'];                  //session created
+        $host=$_SERVER['HTTP_HOST'];
+        $uri=rtrim(dirname($_SERVER['PHP_SELF']));
+        $page="welcome.php";
+        $http=(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") ;
+        header("location:$http://$host$uri/$page");     
     }
+    else{
+        $err="Invalid username and password";
+    }   
+}
 mysqli_close($conn);   //CLOSE CONNECTION
 ?>
-
-
 <!--HTML coding -->
 <html>
 <!--head-->
