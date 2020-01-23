@@ -7,5 +7,4 @@
     $page="index.php";
     $http=(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") ;
     header("location:$http://$host$uri/$page"); 
-
 ?>
