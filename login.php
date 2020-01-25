@@ -5,7 +5,7 @@ include 'conn.php';     //connection
 if(isset($_POST['submit'])){
 	$username=$_POST['uname'];
     $password=$_POST['pswd'];
-    $sql="select * from login where username='$username' and password='$password'";        //SQL STATEMENT
+    $sql="select * from users where username='$username' and password='$password' and is_active='1'";        //SQL STATEMENT
     $result = mysqli_query($conn,$sql);
     $check = mysqli_fetch_array($result);       
     if(isset($check)){
@@ -14,11 +14,26 @@ if(isset($_POST['submit'])){
         $host=$_SERVER['HTTP_HOST'];
         $uri=rtrim(dirname($_SERVER['PHP_SELF']));
         $page="welcome.php";
+        $admin="admin.php";
         $http=(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") ;
-        header("location:$http://$host$uri/$page");     
+        if($check['is_admin']==1){
+            header("location:$http://$host$uri/$admin");   
+        }
+        else{
+            header("location:$http://$host$uri/$page");   
+        }  
     }
+    
     else{
-        $err="Invalid username and password";
+        $var=$check['is_active'];
+       
+        if($var!=1){
+            $err="User is Deactivated";
+        }
+        else{ 
+            $err="Invalid username and password";
+        }
+        
     }   
 }
 mysqli_close($conn);   //CLOSE CONNECTION
@@ -53,7 +68,7 @@ mysqli_close($conn);   //CLOSE CONNECTION
                 <div class="col-sm-4">
                     <input  type="password" class="form-control" name="pswd" placeholder="Enter Password" required>
                 </div>
-                <span class="error" style="margin:20px"><?php echo $err; ?></span>
+                <span class="error" style="margin:20px"><?php echo $err;?></span>
             </div>
         <!--buttton-->
             <button type="submit" name="submit" class="btn btn-primary" style="margin:20px">Sign In</button>

@@ -8,7 +8,7 @@ if(strlen($_SESSION['user'])==0)
 }
 else
 {
-    $sql="select first_name,last_name from login where username='".$_SESSION['user']."'";
+    $sql="select first_name,last_name from users where username='".$_SESSION['user']."'";
     $result = mysqli_query($conn,$sql);
     while($name = mysqli_fetch_array($result))
     {

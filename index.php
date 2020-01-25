@@ -19,7 +19,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $lnameErr = "Only letters and white space allowed";
   }
   $email = test_input($_POST["email"]);                      //email validation
-  $sql1="select email from login where email='$email'";      //SQL STATEMENT
+  $sql1="select email from users where email='$email'";      //SQL STATEMENT
   $result1 = mysqli_query($conn,$sql1);
   $check1 = mysqli_fetch_array($result1);
   //check availability of email
@@ -39,7 +39,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $contactErr = "Invalid Contact";
   }   
   $uname = test_input($_POST["uname"]);                  //username validation
-  $sql2="select username from login where username='$uname'";//SQL STATEMENT
+  $sql2="select username from users where username='$uname'";//SQL STATEMENT
   $result2 = mysqli_query($conn,$sql2);
   $check2 = mysqli_fetch_array($result2);
   //check availability of username
@@ -68,7 +68,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       $username=$_POST['uname'];
       $password=$_POST['pswd'];
       //inserting data in database
-      $sql="Insert into login (first_name, last_name, contact, email, username, password) values('$fname','$lname','$contact','$email','$username','$password')";
+      $sql="Insert into users (first_name, last_name, contact, email, username, password,is_active) values('$fname','$lname','$contact','$email','$username','$password','1')";
       if (mysqli_query($conn, $sql)) {
         $_SESSION['user']=$_POST['uname'];
         $host=$_SERVER['HTTP_HOST'];
